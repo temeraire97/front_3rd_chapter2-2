@@ -1,22 +1,27 @@
+import jsPlugin from '@eslint/js';
+import tsPlugin from 'typescript-eslint';
+import reactPlugin from 'eslint-plugin-react';
 import globals from 'globals';
-import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import pluginReact from 'eslint-plugin-react';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-// import importPlugin from 'eslint-plugin-import';
+
+const tsConfig = tsPlugin.config(jsPlugin.configs.recommended, ...tsPlugin.configs.recommended);
 
 export default [
-  { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
+  ...tsConfig,
+  reactPlugin.configs.flat.recommended,
   {
+    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    ignores: ['eslint.config.js'],
     languageOptions: {
-      ecmaVersion: 2021,
       sourceType: 'module',
-      globals: globals.browser,
+      globals: { ...globals.browser },
+    },
+    rules: {
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
     },
   },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  // importPlugin.flatConfig.recommended,
-  pluginReact.configs.flat.recommended,
+  eslintConfigPrettier,
   eslintPluginPrettierRecommended,
 ];
