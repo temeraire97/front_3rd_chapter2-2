@@ -5,14 +5,14 @@ const getCartItem = (cart: CartItem[], productId: string): CartItem | undefined 
 };
 
 // 상품의 총 가격 계산 함수
-const calculateItemTotal = (item: CartItem): number => {
+const getItemTotal = (item: CartItem): number => {
   const { price } = item.product;
   const { quantity } = item;
   return price * quantity;
 };
 
 // 상품에 대해 적용 가능한 최대 할인율 계산 함수
-const getMaxApplicableDiscount = (item: CartItem): number => {
+export const getMaxApplicableDiscount = (item: CartItem): number => {
   const { quantity, product } = item;
 
   return product.discounts.reduce(
@@ -23,8 +23,8 @@ const getMaxApplicableDiscount = (item: CartItem): number => {
 };
 
 // 상품에 대한 할인 적용 후 총 가격 계산 함수
-const calculateDiscount = (item: CartItem): number => {
-  const itemTotal = calculateItemTotal(item);
+export const calculateItemTotal = (item: CartItem): number => {
+  const itemTotal = getItemTotal(item);
   const maxDiscount = getMaxApplicableDiscount(item);
   return itemTotal * (1 - maxDiscount);
 };
@@ -33,8 +33,8 @@ const calculateDiscount = (item: CartItem): number => {
 const calculateTotalsFromCart = (cart: CartItem[]) => {
   return cart.reduce(
     (totals, item) => {
-      const itemTotal = calculateItemTotal(item);
-      const discountedTotal = calculateDiscount(item);
+      const itemTotal = getItemTotal(item);
+      const discountedTotal = calculateItemTotal(item);
 
       totals.totalBeforeDiscount += itemTotal;
       totals.totalAfterDiscount += discountedTotal;
