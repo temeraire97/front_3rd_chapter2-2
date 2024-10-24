@@ -1,0 +1,62 @@
+import { useMemo } from 'react';
+import { Product } from '@/types';
+
+interface ProductFormProps {
+  showNewProductForm: boolean;
+  newProduct: Omit<Product, 'id'>;
+  setNewProduct: (product: Omit<Product, 'id'>) => void;
+  handleAddNewProduct: () => void;
+}
+
+export const ProductForm = ({
+  showNewProductForm,
+  newProduct,
+  setNewProduct,
+  handleAddNewProduct,
+}: ProductFormProps) => {
+  const fields = useMemo(() => {
+    const { name, price, stock } = newProduct;
+    return [
+      { id: 'productName', label: '상품명', type: 'text', value: name, key: 'name' },
+      { id: 'productPrice', label: '가격', type: 'number', value: price, key: 'price' },
+      { id: 'productStock', label: '재고', type: 'number', value: stock, key: 'stock' },
+    ];
+  }, [newProduct]);
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>, key: string, type: string) => {
+    const { value } = e.target;
+    const parsedValue = type === 'number' ? Number(value.replace(/[^0-9]/g, '')) : value;
+    e.target.value = parsedValue.toString();
+
+    setNewProduct({
+      ...newProduct,
+      [key]: parsedValue,
+    });
+  };
+
+  return (
+    showNewProductForm && (
+      <div className="bg-white p-4 rounded shadow mb-4">
+        <h3 className="text-xl font-semibold mb-2">새 상품 추가</h3>
+        {fields.map((field) => (
+          <div key={field.id} className="mb-2">
+            <label htmlFor={field.id} className="block text-sm font-medium text-gray-700">
+              {field.label}
+            </label>
+            <input
+              id={field.id}
+              type={field.type}
+              value={field.value}
+              onChange={(e) => handleOnChange(e, field.key, field.type)}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+        ))}
+
+        <button onClick={handleAddNewProduct} className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+          추가
+        </button>
+      </div>
+    )
+  );
+};
