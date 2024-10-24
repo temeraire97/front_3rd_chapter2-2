@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Coupon, Product } from '@/types';
 
-import { CartPage } from '@app/cart/CartPage.tsx';
-import { AdminPage } from '@app/admin/AdminPage.tsx';
+import { CartPage } from '@app/cart/CartPage';
+import { AdminPage } from '@app/admin/AdminPage';
 
 import { useCoupons, useProducts } from '@app/cart/hooks';
 
