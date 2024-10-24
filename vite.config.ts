@@ -5,7 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default mergeConfig(
   defineConfig({
-    plugins: [react(), tsconfigPaths()],
+    plugins: [tsconfigPaths(), react()],
   }),
   defineTestConfig({
     test: {
