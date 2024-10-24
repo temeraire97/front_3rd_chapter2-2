@@ -18,19 +18,21 @@ export const CartPage = ({ products, coupons }: Props) => {
     return product.stock - (cartItem?.quantity || 0);
   };
 
-  const { totalBeforeDiscount, totalAfterDiscount, totalDiscount } = calculateTotal();
-
   const getAppliedDiscount = (item: CartItem) => {
-    const { discounts } = item.product;
-    const { quantity } = item;
-    let appliedDiscount = 0;
-    for (const discount of discounts) {
-      if (quantity >= discount.quantity) {
-        appliedDiscount = Math.max(appliedDiscount, discount.rate);
-      }
-    }
+    const {
+      product: { discounts },
+      quantity,
+    } = item;
+
+    const appliedDiscount = discounts.reduce(
+      (max, discount) => (quantity >= discount.quantity ? Math.max(max, discount.rate) : max),
+      0,
+    );
+
     return appliedDiscount;
   };
+
+  const { totalBeforeDiscount, totalAfterDiscount, totalDiscount } = calculateTotal();
 
   return (
     <div className="container mx-auto p-4">
