@@ -1,8 +1,7 @@
 // useCart.ts
-// useCart.ts
 import { useState } from 'react';
-import { CartItem, Coupon, Product } from '../../types';
-import { calculateCartTotal, updateCartItemQuantity, getRemainingStock, getAddedCart } from './utils/cartUtils';
+import { CartItem, Coupon, Product } from '@/types';
+import { calculateCartTotal, updateCartItemQuantity, getRemainingStock, getAddedCart } from '@utils/cartUtils';
 
 interface CartHook {
   cart: CartItem[];

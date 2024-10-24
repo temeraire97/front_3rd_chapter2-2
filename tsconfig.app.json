@@ -16,6 +16,13 @@
         "moduleDetection": "force",
         "noEmit": true,
         "jsx": "react-jsx",
+        "baseUrl": "src",
+        "paths": {
+            "@/*": ["*"],
+            "@refactoring/*": ["refactoring/*"],
+            "@app/*": ["refactoring/app/*"],
+            "@utils/*": ["refactoring/utils/*"]
+        },
 
         /* Linting */
         "strict": true,

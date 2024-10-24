@@ -1,4 +1,4 @@
-import { CartItem, Coupon, Product } from '../../../types';
+import { CartItem, Coupon, Product } from '@/types';
 
 const getCartItem = (cart: CartItem[], productId: string): CartItem | undefined => {
   return cart.find((item) => item.product.id === productId);
