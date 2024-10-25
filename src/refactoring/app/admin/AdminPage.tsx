@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Coupon, Discount, Product } from '@/types';
 
-import { ProductForm, ProductEditForm } from './components';
+import { ProductForm, ProductEditForm, ProductDiscount } from './components';
 
 interface Props {
   products: Product[];
@@ -170,22 +170,7 @@ export const AdminPage = ({ products, coupons, onProductUpdate, onProductAdd, on
                         handleEditComplete={handleEditComplete}
                       />
                     ) : (
-                      <div>
-                        {product.discounts.map((discount, index) => (
-                          <div key={index} className="mb-2">
-                            <span>
-                              {discount.quantity}개 이상 구매 시 {discount.rate * 100}% 할인
-                            </span>
-                          </div>
-                        ))}
-                        <button
-                          data-testid="modify-button"
-                          onClick={() => handleEditProduct(product)}
-                          className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 mt-2"
-                        >
-                          수정
-                        </button>
-                      </div>
+                      <ProductDiscount product={product} handleEditProduct={handleEditProduct} />
                     )}
                   </div>
                 )}
