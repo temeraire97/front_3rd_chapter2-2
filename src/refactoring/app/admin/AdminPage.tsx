@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Coupon, Discount, Product } from '@/types';
 
-import { CouponForm, CouponItem } from './components';
-
 import { ProductSection } from './Product';
+import { CouponSection } from './Coupon';
 
 interface Props {
   products: Product[];
@@ -133,15 +132,15 @@ export const AdminPage = ({ products, coupons, onProductUpdate, onProductAdd, on
       <h1 className="text-3xl font-bold mb-6">관리자 페이지</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ProductSection
-          showNewProductForm={showNewProductForm}
-          setShowNewProductForm={setShowNewProductForm}
-          newProduct={newProduct}
-          setNewProduct={setNewProduct}
-          handleAddNewProduct={handleAddNewProduct}
           products={products}
+          showNewProductForm={showNewProductForm}
+          newProduct={newProduct}
           openProductIds={openProductIds}
           editingProduct={editingProduct}
           newDiscount={newDiscount}
+          setShowNewProductForm={setShowNewProductForm}
+          setNewProduct={setNewProduct}
+          handleAddNewProduct={handleAddNewProduct}
           toggleProductAccordion={toggleProductAccordion}
           handleProductNameUpdate={handleProductNameUpdate}
           handlePriceUpdate={handlePriceUpdate}
@@ -152,20 +151,12 @@ export const AdminPage = ({ products, coupons, onProductUpdate, onProductAdd, on
           handleEditComplete={handleEditComplete}
           handleEditProduct={handleEditProduct}
         />
-        <div>
-          <h2 className="text-2xl font-semibold mb-4">쿠폰 관리</h2>
-          <div className="bg-white p-4 rounded shadow">
-            <CouponForm newCoupon={newCoupon} setNewCoupon={setNewCoupon} handleAddCoupon={handleAddCoupon} />
-            <div>
-              <h3 className="text-lg font-semibold mb-2">현재 쿠폰 목록</h3>
-              <div className="space-y-2">
-                {coupons.map((coupon, index) => (
-                  <CouponItem key={coupon.code} index={index} coupon={coupon} />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        <CouponSection
+          coupons={coupons}
+          newCoupon={newCoupon}
+          setNewCoupon={setNewCoupon}
+          handleAddCoupon={handleAddCoupon}
+        />
       </div>
     </div>
   );
