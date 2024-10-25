@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Coupon, Discount, Product } from '@/types';
 
-import { ProductForm, ProductItem, CouponForm, CouponItem } from './components';
+import { CouponForm, CouponItem } from './components';
+
+import { ProductSection } from './Product';
 
 interface Props {
   products: Product[];
@@ -130,38 +132,26 @@ export const AdminPage = ({ products, coupons, onProductUpdate, onProductAdd, on
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">관리자 페이지</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <h2 className="text-2xl font-semibold mb-4">상품 관리</h2>
-          <ProductForm
-            showNewProductForm={showNewProductForm}
-            setShowNewProductForm={setShowNewProductForm}
-            newProduct={newProduct}
-            setNewProduct={setNewProduct}
-            handleAddNewProduct={handleAddNewProduct}
-          />
-          <div className="space-y-2">
-            {products.map((product, index) => (
-              <ProductItem
-                key={product.id}
-                index={index}
-                product={product}
-                openProductIds={openProductIds}
-                editingProduct={editingProduct}
-                newDiscount={newDiscount}
-                toggleProductAccordion={toggleProductAccordion}
-                handleProductNameUpdate={handleProductNameUpdate}
-                handlePriceUpdate={handlePriceUpdate}
-                handleStockUpdate={handleStockUpdate}
-                handleRemoveDiscount={handleRemoveDiscount}
-                setNewDiscount={setNewDiscount}
-                handleAddDiscount={handleAddDiscount}
-                handleEditComplete={handleEditComplete}
-                handleEditProduct={handleEditProduct}
-              />
-            ))}
-          </div>
-        </div>
-
+        <ProductSection
+          showNewProductForm={showNewProductForm}
+          setShowNewProductForm={setShowNewProductForm}
+          newProduct={newProduct}
+          setNewProduct={setNewProduct}
+          handleAddNewProduct={handleAddNewProduct}
+          products={products}
+          openProductIds={openProductIds}
+          editingProduct={editingProduct}
+          newDiscount={newDiscount}
+          toggleProductAccordion={toggleProductAccordion}
+          handleProductNameUpdate={handleProductNameUpdate}
+          handlePriceUpdate={handlePriceUpdate}
+          handleStockUpdate={handleStockUpdate}
+          handleRemoveDiscount={handleRemoveDiscount}
+          setNewDiscount={setNewDiscount}
+          handleAddDiscount={handleAddDiscount}
+          handleEditComplete={handleEditComplete}
+          handleEditProduct={handleEditProduct}
+        />
         <div>
           <h2 className="text-2xl font-semibold mb-4">쿠폰 관리</h2>
           <div className="bg-white p-4 rounded shadow">
