@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Coupon } from '@/types';
+import { COUPON_INITIAL_STATE } from '@refactoring/constants';
 
 interface CouponHookProps {
   onCouponAdd: (newCoupon: Coupon) => void;
@@ -11,21 +12,11 @@ interface CouponHook {
 }
 
 export const useCoupon = ({ onCouponAdd }: CouponHookProps): CouponHook => {
-  const [newCoupon, setNewCoupon] = useState<Coupon>({
-    name: '',
-    code: '',
-    discountType: 'percentage',
-    discountValue: 0,
-  });
+  const [newCoupon, setNewCoupon] = useState<Coupon>(COUPON_INITIAL_STATE);
 
   const handleAddCoupon = () => {
     onCouponAdd(newCoupon);
-    setNewCoupon({
-      name: '',
-      code: '',
-      discountType: 'percentage',
-      discountValue: 0,
-    });
+    setNewCoupon(COUPON_INITIAL_STATE);
   };
 
   return {
