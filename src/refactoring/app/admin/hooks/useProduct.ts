@@ -1,7 +1,10 @@
 // useProduct.ts
 import { useState } from 'react';
+
 import { Product, Discount } from '@/types';
 import { PRODUCT_INITIAL_STATE } from '@/refactoring/constants';
+import { toggleSet } from '@/refactoring/utils';
+import { updateProductField, findAndUpdateProduct } from '@utils/adminProductUtils';
 
 interface ProductHookInitialProps {
   products: Product[];
@@ -36,29 +39,20 @@ export const useProduct = ({ products, onProductUpdate, onProductAdd }: ProductH
   const [newDiscount, setNewDiscount] = useState<Discount>({ quantity: 0, rate: 0 });
 
   const toggleProductAccordion = (productId: string) => {
-    setOpenProductIds((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(productId)) {
-        newSet.delete(productId);
-      } else {
-        newSet.add(productId);
-      }
-      return newSet;
-    });
+    setOpenProductIds((prev) => toggleSet(prev, productId));
   };
   const handleEditProduct = (product: Product) => {
     setEditingProduct({ ...product });
   };
   const handleProductNameUpdate = (productId: string, newName: string) => {
     if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = { ...editingProduct, name: newName };
-      setEditingProduct(updatedProduct);
+      setEditingProduct(updateProductField(editingProduct, { name: newName }));
     }
   };
+
   const handlePriceUpdate = (productId: string, newPrice: number) => {
     if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = { ...editingProduct, price: newPrice };
-      setEditingProduct(updatedProduct);
+      setEditingProduct(updateProductField(editingProduct, { price: newPrice }));
     }
   };
   const handleEditComplete = () => {
@@ -68,11 +62,10 @@ export const useProduct = ({ products, onProductUpdate, onProductAdd }: ProductH
     }
   };
   const handleStockUpdate = (productId: string, newStock: number) => {
-    const updatedProduct = products.find((p) => p.id === productId);
+    const updatedProduct = findAndUpdateProduct(products, productId, { stock: newStock });
     if (updatedProduct) {
-      const newProduct = { ...updatedProduct, stock: newStock };
-      onProductUpdate(newProduct);
-      setEditingProduct(newProduct);
+      onProductUpdate(updatedProduct);
+      setEditingProduct(updatedProduct);
     }
   };
   const handleAddNewProduct = () => {
@@ -82,14 +75,12 @@ export const useProduct = ({ products, onProductUpdate, onProductAdd }: ProductH
     setShowNewProductForm(false);
   };
   const handleAddDiscount = (productId: string) => {
-    const updatedProduct = products.find((p) => p.id === productId);
-    if (updatedProduct && editingProduct) {
-      const newProduct = {
-        ...updatedProduct,
-        discounts: [...updatedProduct.discounts, newDiscount],
-      };
-      onProductUpdate(newProduct);
-      setEditingProduct(newProduct);
+    const updatedProduct = findAndUpdateProduct(products, productId, {
+      discounts: [...(editingProduct?.discounts || []), newDiscount],
+    });
+    if (updatedProduct) {
+      onProductUpdate(updatedProduct);
+      setEditingProduct(updatedProduct);
       setNewDiscount({ quantity: 0, rate: 0 });
     }
   };
