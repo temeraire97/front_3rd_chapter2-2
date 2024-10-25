@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Coupon, Discount, Product } from '@/types';
 
-import { ProductForm, ProductEditForm, ProductDiscount, CouponForm } from './components';
+import { ProductForm, ProductItem, CouponForm } from './components';
 
 interface Props {
   products: Product[];
@@ -141,35 +141,23 @@ export const AdminPage = ({ products, coupons, onProductUpdate, onProductAdd, on
           />
           <div className="space-y-2">
             {products.map((product, index) => (
-              <div key={product.id} data-testid={`product-${index + 1}`} className="bg-white p-4 rounded shadow">
-                <button
-                  data-testid="toggle-button"
-                  onClick={() => toggleProductAccordion(product.id)}
-                  className="w-full text-left font-semibold"
-                >
-                  {product.name} - {product.price}원 (재고: {product.stock})
-                </button>
-                {openProductIds.has(product.id) && (
-                  <div className="mt-2">
-                    {editingProduct && editingProduct.id === product.id ? (
-                      <ProductEditForm
-                        product={product}
-                        editingProduct={editingProduct}
-                        newDiscount={newDiscount}
-                        handleProductNameUpdate={handleProductNameUpdate}
-                        handlePriceUpdate={handlePriceUpdate}
-                        handleStockUpdate={handleStockUpdate}
-                        handleRemoveDiscount={handleRemoveDiscount}
-                        setNewDiscount={setNewDiscount}
-                        handleAddDiscount={handleAddDiscount}
-                        handleEditComplete={handleEditComplete}
-                      />
-                    ) : (
-                      <ProductDiscount product={product} handleEditProduct={handleEditProduct} />
-                    )}
-                  </div>
-                )}
-              </div>
+              <ProductItem
+                key={product.id}
+                index={index}
+                product={product}
+                openProductIds={openProductIds}
+                editingProduct={editingProduct}
+                newDiscount={newDiscount}
+                toggleProductAccordion={toggleProductAccordion}
+                handleProductNameUpdate={handleProductNameUpdate}
+                handlePriceUpdate={handlePriceUpdate}
+                handleStockUpdate={handleStockUpdate}
+                handleRemoveDiscount={handleRemoveDiscount}
+                setNewDiscount={setNewDiscount}
+                handleAddDiscount={handleAddDiscount}
+                handleEditComplete={handleEditComplete}
+                handleEditProduct={handleEditProduct}
+              />
             ))}
           </div>
         </div>
