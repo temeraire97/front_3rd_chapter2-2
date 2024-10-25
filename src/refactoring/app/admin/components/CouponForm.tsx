@@ -3,10 +3,11 @@ import { Coupon } from '@/types';
 interface CouponFormProps {
   newCoupon: Coupon;
   setNewCoupon: (coupon: Coupon) => void;
+  handleCouponInput: (e: React.ChangeEvent<HTMLInputElement>, key: string) => void;
   handleAddCoupon: () => void;
 }
 
-export const CouponForm = ({ newCoupon, setNewCoupon, handleAddCoupon }: CouponFormProps) => {
+export const CouponForm = ({ newCoupon, setNewCoupon, handleCouponInput, handleAddCoupon }: CouponFormProps) => {
   const { name, code, discountType, discountValue } = newCoupon;
 
   return (
@@ -15,20 +16,20 @@ export const CouponForm = ({ newCoupon, setNewCoupon, handleAddCoupon }: CouponF
         type="text"
         placeholder="쿠폰 이름"
         value={name}
-        onChange={(e) => setNewCoupon({ ...newCoupon, name: e.target.value })}
+        onChange={(e) => handleCouponInput(e, 'name')}
         className="w-full p-2 border rounded"
       />
       <input
         type="text"
         placeholder="쿠폰 코드"
         value={code}
-        onChange={(e) => setNewCoupon({ ...newCoupon, code: e.target.value })}
+        onChange={(e) => handleCouponInput(e, 'code')}
         className="w-full p-2 border rounded"
       />
       <div className="flex gap-2">
         <select
           value={discountType}
-          onChange={(e) => setNewCoupon({ ...newCoupon, discountType: e.target.value as 'amount' | 'percentage' })}
+          onChange={(e) => setNewCoupon({ ...newCoupon, discountType: e.target.value as Coupon['discountType'] })}
           className="w-full p-2 border rounded"
         >
           <option value="amount">금액(원)</option>
@@ -38,7 +39,7 @@ export const CouponForm = ({ newCoupon, setNewCoupon, handleAddCoupon }: CouponF
           type="number"
           placeholder="할인 값"
           value={discountValue}
-          onChange={(e) => setNewCoupon({ ...newCoupon, discountValue: parseInt(e.target.value) })}
+          onChange={(e) => handleCouponInput(e, 'discountValue')}
           className="w-full p-2 border rounded"
         />
       </div>

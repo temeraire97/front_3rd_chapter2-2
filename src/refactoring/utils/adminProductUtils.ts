@@ -1,4 +1,4 @@
-import { Product } from '@/types';
+import { Product, Coupon } from '@/types';
 
 export const updateProductField = (product: Product | null, updatedFields: Partial<Product>): Product | null => {
   if (product) {
@@ -15,4 +15,7 @@ export const findAndUpdateProduct = (
   if (!product) return null;
 
   return updateProductField(product, updatedFields);
+};
+export const updateCouponField = (coupon: Coupon, updatedFields: Partial<Coupon>): Coupon => {
+  return { ...coupon, ...updatedFields };
 };

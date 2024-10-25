@@ -5,15 +5,27 @@ interface CouponSectionProps {
   coupons: Coupon[];
   newCoupon: Coupon;
   setNewCoupon: (newCoupon: Coupon) => void;
+  handleCouponInput: (e: React.ChangeEvent<HTMLInputElement>, key: string) => void;
   handleAddCoupon: () => void;
 }
 
-export const CouponSection = ({ coupons, newCoupon, setNewCoupon, handleAddCoupon }: CouponSectionProps) => {
+export const CouponSection = ({
+  coupons,
+  newCoupon,
+  setNewCoupon,
+  handleCouponInput,
+  handleAddCoupon,
+}: CouponSectionProps) => {
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">쿠폰 관리</h2>
       <div className="bg-white p-4 rounded shadow">
-        <CouponForm newCoupon={newCoupon} setNewCoupon={setNewCoupon} handleAddCoupon={handleAddCoupon} />
+        <CouponForm
+          newCoupon={newCoupon}
+          setNewCoupon={setNewCoupon}
+          handleCouponInput={handleCouponInput}
+          handleAddCoupon={handleAddCoupon}
+        />
         <div>
           <h3 className="text-lg font-semibold mb-2">현재 쿠폰 목록</h3>
           <div className="space-y-2">

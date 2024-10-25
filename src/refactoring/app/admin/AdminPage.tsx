@@ -33,7 +33,7 @@ export const AdminPage = ({ products, coupons, onProductUpdate, onProductAdd, on
     handleRemoveDiscount,
     handleAddDiscount,
   } = useProduct({ products, onProductUpdate, onProductAdd });
-  const { newCoupon, setNewCoupon, handleAddCoupon } = useCoupon({ onCouponAdd });
+  const { newCoupon, setNewCoupon, handleCouponInput, handleAddCoupon } = useCoupon({ onCouponAdd });
 
   return (
     <div className="container mx-auto p-4">
@@ -63,6 +63,7 @@ export const AdminPage = ({ products, coupons, onProductUpdate, onProductAdd, on
           coupons={coupons}
           newCoupon={newCoupon}
           setNewCoupon={setNewCoupon}
+          handleCouponInput={handleCouponInput}
           handleAddCoupon={handleAddCoupon}
         />
       </div>

@@ -7,3 +7,10 @@ export const toggleSet = <T>(set: Set<T>, value: T): Set<T> => {
   }
   return newSet;
 };
+export const parseInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { type, value } = e.target;
+  const parsedValue = type === 'number' ? Number(value.replace(/[^0-9]/g, '')) : value;
+  e.target.value = parsedValue.toString();
+
+  return parsedValue;
+};

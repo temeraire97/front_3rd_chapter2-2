@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Product } from '@/types';
+import { parseInputValue } from '@refactoring/utils';
 
 interface ProductFormProps {
   showNewProductForm: boolean;
@@ -25,10 +26,8 @@ export const ProductForm = ({
     ];
   }, [newProduct]);
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>, key: string, type: string) => {
-    const { value } = e.target;
-    const parsedValue = type === 'number' ? Number(value.replace(/[^0-9]/g, '')) : value;
-    e.target.value = parsedValue.toString();
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+    const parsedValue = parseInputValue(e);
 
     setNewProduct({
       ...newProduct,
@@ -57,7 +56,7 @@ export const ProductForm = ({
                 id={field.id}
                 type={field.type}
                 value={field.value}
-                onChange={(e) => handleOnChange(e, field.key, field.type)}
+                onChange={(e) => handleOnChange(e, field.key)}
                 className="w-full p-2 border rounded"
               />
             </div>
