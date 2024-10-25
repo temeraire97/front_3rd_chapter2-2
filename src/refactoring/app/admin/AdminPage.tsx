@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { Coupon, Product } from '@/types';
 
-import { useProduct } from './hooks';
+import { useProduct, useCoupon } from './hooks';
 
 import { ProductSection } from './Product';
 import { CouponSection } from './Coupon';
@@ -34,22 +33,7 @@ export const AdminPage = ({ products, coupons, onProductUpdate, onProductAdd, on
     handleRemoveDiscount,
     handleAddDiscount,
   } = useProduct({ products, onProductUpdate, onProductAdd });
-  const [newCoupon, setNewCoupon] = useState<Coupon>({
-    name: '',
-    code: '',
-    discountType: 'percentage',
-    discountValue: 0,
-  });
-
-  const handleAddCoupon = () => {
-    onCouponAdd(newCoupon);
-    setNewCoupon({
-      name: '',
-      code: '',
-      discountType: 'percentage',
-      discountValue: 0,
-    });
-  };
+  const { newCoupon, setNewCoupon, handleAddCoupon } = useCoupon({ onCouponAdd });
 
   return (
     <div className="container mx-auto p-4">
