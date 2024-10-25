@@ -1,6 +1,7 @@
 // useProduct.ts
 import { useState } from 'react';
 import { Product, Discount } from '@/types';
+import { PRODUCT_INITIAL_STATE } from '@/refactoring/constants';
 
 interface ProductHookInitialProps {
   products: Product[];
@@ -29,12 +30,7 @@ interface ProductHook {
 
 export const useProduct = ({ products, onProductUpdate, onProductAdd }: ProductHookInitialProps): ProductHook => {
   const [showNewProductForm, setShowNewProductForm] = useState(false);
-  const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({
-    name: '',
-    price: 0,
-    stock: 0,
-    discounts: [],
-  });
+  const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>(PRODUCT_INITIAL_STATE);
   const [openProductIds, setOpenProductIds] = useState<Set<string>>(new Set());
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newDiscount, setNewDiscount] = useState<Discount>({ quantity: 0, rate: 0 });
@@ -82,12 +78,7 @@ export const useProduct = ({ products, onProductUpdate, onProductAdd }: ProductH
   const handleAddNewProduct = () => {
     const productWithId = { ...newProduct, id: Date.now().toString() };
     onProductAdd(productWithId);
-    setNewProduct({
-      name: '',
-      price: 0,
-      stock: 0,
-      discounts: [],
-    });
+    setNewProduct(PRODUCT_INITIAL_STATE);
     setShowNewProductForm(false);
   };
   const handleAddDiscount = (productId: string) => {
