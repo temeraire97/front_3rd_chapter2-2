@@ -4,7 +4,7 @@ import { Coupon, Product } from '@/types';
 import { CartPage } from '@app/cart/CartPage';
 import { AdminPage } from '@app/admin/AdminPage';
 
-import { useCoupons, useProducts } from '@app/cart/hooks';
+import { useCoupons, useProducts } from '@refactoring/hooks';
 
 const initialProducts: Product[] = [
   {
