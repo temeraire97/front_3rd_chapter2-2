@@ -4,6 +4,8 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { CartPage } from '@app/cart/CartPage';
 import { AdminPage } from '@app/admin/AdminPage';
 import { Coupon, Product } from '@/types';
+import { toggleSet } from '@refactoring/utils';
+import { updateProductField, findAndUpdateProduct } from '@utils/adminProductUtils';
 
 const mockProducts: Product[] = [
   {
@@ -223,8 +225,47 @@ describe('advanced > ', () => {
   });
 
   describe('자유롭게 작성해보세요.', () => {
-    test('새로운 유틸 함수를 만든 후에 테스트 코드를 작성해서 실행해보세요', () => {
-      expect(true).toBe(false);
+    describe('toggleSet 함수 테스트 > ', () => {
+      const testValue = 'test';
+      test('값이 존재하지 않는다면 새로 추가되어야 한다.', () => {
+        const set = new Set();
+        const newSet = toggleSet(set, testValue);
+        expect(newSet.has(testValue)).toBe(true);
+      });
+      test('값이 존재한다면 삭제되어야 한다.', () => {
+        const set = new Set([testValue]);
+        const newSet = toggleSet(set, testValue);
+        expect(newSet.has(testValue)).toBe(false);
+      });
+    });
+    describe('updateProductField 함수 테스트 > ', () => {
+      test('상품의 이름을 수정할 수 있다.', () => {
+        const updatedProduct = updateProductField(mockProducts[0], { name: 'updated' });
+        if (!updatedProduct) throw new Error('상품이 존재하지 않습니다.');
+        expect(updatedProduct.name).toBe('updated');
+      });
+      test('상품의 가격을 수정할 수 있다.', () => {
+        const updatedProduct = updateProductField(mockProducts[0], { price: 20000 });
+        if (!updatedProduct) throw new Error('상품이 존재하지 않습니다.');
+        expect(updatedProduct.price).toBe(20000);
+      });
+      test('상품의 재고를 수정할 수 있다.', () => {
+        const updatedProduct = updateProductField(mockProducts[0], { stock: 20 });
+        if (!updatedProduct) throw new Error('상품이 존재하지 않습니다.');
+        expect(updatedProduct.stock).toBe(20);
+      });
+    });
+    describe('findAndUpdateProduct 함수 테스트 > ', () => {
+      test('상품의 재고를 수정할 수 있다.', () => {
+        const updatedProduct = findAndUpdateProduct(mockProducts, 'p1', { stock: 30 });
+        if (!updatedProduct) throw new Error('상품이 존재하지 않습니다.');
+        expect(updatedProduct.stock).toBe(30);
+      });
+      test('상품의 할인 정보를 수정할 수 있다.', () => {
+        const updatedProduct = findAndUpdateProduct(mockProducts, 'p1', { discounts: [{ quantity: 5, rate: 0.05 }] });
+        if (!updatedProduct) throw new Error('상품이 존재하지 않습니다.');
+        expect(updatedProduct.discounts).toEqual([{ quantity: 5, rate: 0.05 }]);
+      });
     });
 
     test('새로운 hook 함수르 만든 후에 테스트 코드를 작성해서 실행해보세요', () => {
