@@ -1,14 +1,14 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, PropsWithChildren, useContext, useState } from "react"
 import { initialCoupons, initialProducts } from "./mockData"
 import { Product } from "../entities/product/Product.ts"
 import { Cart } from "../entities/cart/Cart.ts"
 import { Coupon } from "../entities/coupon/Coupon.ts"
 
-export const createContextHook = <T, U>(useStoreState: (props: U) => T) => {
-  const Context = createContext({} as T)
+export const createContextHook = <C, P>(useStoreState: (props: P) => C) => {
+  const Context = createContext({} as C)
 
-  function ContextProvider({ children, ...props }: U) {
-    return <Context.Provider value={useStoreState(props)}>{children}</Context.Provider>
+  function ContextProvider({ children, ...props }: PropsWithChildren<P>) {
+    return <Context.Provider value={useStoreState(props as P)}>{children}</Context.Provider>
   }
 
   function useStoreContext() {
